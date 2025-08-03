@@ -6,18 +6,12 @@ export default function CoinDetail() {
   const router = useRouter()
   const { id } = router.query
 
+  // ✅ Hooks should be called at the top level
   const context = useWatchlist()
-
-  if (!context) {
-    // This prevents build-time crash
-    return null
-  }
-
-  const { watchlist, addToWatchlist, removeFromWatchlist } = context
-
   const [coinData, setCoinData] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  // ✅ useEffect can stay after hooks
   useEffect(() => {
     if (!id) return
     const fetchCoin = async () => {
@@ -29,6 +23,10 @@ export default function CoinDetail() {
     }
     fetchCoin()
   }, [id])
+
+  // ✅ Conditional rendering goes *after* hooks
+  if (!context) return null
+  const { watchlist, addToWatchlist, removeFromWatchlist } = context
 
   if (loading) return <p>Loading...</p>
   if (!coinData) return <p>Coin not found</p>
