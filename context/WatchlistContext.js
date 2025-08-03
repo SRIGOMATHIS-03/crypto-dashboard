@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const WatchlistContext = createContext();
 
-export function WatchlistProvider({ children }) {
+export function WatchlistContextProvider({ children }) {
   const [watchlist, setWatchlist] = useState([]);
 
   // Load watchlist from localStorage on first render

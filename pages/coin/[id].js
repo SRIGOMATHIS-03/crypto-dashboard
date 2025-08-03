@@ -1,67 +1,51 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { useWatchlist } from '@/context/WatchlistContext'
+import { useWatchlist } from '../../context/WatchlistContext'
 
-export default function CoinDetails() {
+export default function CoinDetail() {
   const router = useRouter()
   const { id } = router.query
 
-  const [coin, setCoin] = useState(null)
+  const context = useWatchlist()
+
+  if (!context) {
+    // This prevents build-time crash
+    return null
+  }
+
+  const { watchlist, addToWatchlist, removeFromWatchlist } = context
+
+  const [coinData, setCoinData] = useState(null)
   const [loading, setLoading] = useState(true)
-  const { watchlist, addToWatchlist, removeFromWatchlist } = useWatchlist()
 
   useEffect(() => {
     if (!id) return
-
     const fetchCoin = async () => {
       setLoading(true)
-      try {
-        const res = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`)
-        const data = await res.json()
-        setCoin(data)
-      } catch (error) {
-        console.error('Failed to fetch coin data:', error)
-      } finally {
-        setLoading(false)
-      }
+      const res = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`)
+      const data = await res.json()
+      setCoinData(data)
+      setLoading(false)
     }
-
     fetchCoin()
   }, [id])
 
-  const isInWatchlist = coin && watchlist.includes(coin.id)
+  if (loading) return <p>Loading...</p>
+  if (!coinData) return <p>Coin not found</p>
 
-  if (loading) return <p className="p-4 text-gray-600">Loading...</p>
-  if (!coin) return <p className="p-4 text-red-600">Coin not found.</p>
+  const isInWatchlist = watchlist.includes(id)
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <div className="flex items-center gap-4 mb-4">
-        <img src={coin.image.large} alt={coin.name} className="w-16 h-16" />
-        <div>
-          <h1 className="text-3xl font-bold">{coin.name}</h1>
-          <p className="text-gray-500 text-lg uppercase">{coin.symbol}</p>
-        </div>
-      </div>
-
-      <p
-        className="text-gray-800 leading-relaxed mb-6"
-        dangerouslySetInnerHTML={{
-          __html: coin.description.en
-            ? coin.description.en.split('. ')[0] + '.'
-            : 'No description available.',
-        }}
-      ></p>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold">{coinData.name}</h1>
+      <p>Symbol: {coinData.symbol.toUpperCase()}</p>
+      <p>Current Price: ${coinData.market_data.current_price.usd}</p>
 
       <button
+        className="mt-4 px-4 py-2 rounded bg-blue-500 text-white"
         onClick={() =>
-          isInWatchlist
-            ? removeFromWatchlist(coin.id)
-            : addToWatchlist(coin.id)
+          isInWatchlist ? removeFromWatchlist(id) : addToWatchlist(id)
         }
-        className={`px-5 py-2 rounded text-white ${
-          isInWatchlist ? 'bg-red-500' : 'bg-blue-600'
-        }`}
       >
         {isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}
       </button>
