@@ -18,13 +18,17 @@ A responsive cryptocurrency dashboard built with **Next.js** and **Tailwind CSS*
 - **JavaScript (ES6+)**
 
 ## 📁 Folder Structure
+
+<pre>
 components/
-└── CryptoTable.js
+  └── CryptoTable.js
+
 pages/
-├── index.js # Homepage with crypto listings
-├── coin/[id].js # Dynamic coin detail page
-└── _app.js # App layout
-## 🧪 Getting Started
+  ├── index.js         # Homepage with crypto listings
+  ├── coin/[id].js     # Dynamic coin detail page
+  └── _app.js          # App layout and global styles
+</pre>
+
 
 Clone and run it locally:
 
