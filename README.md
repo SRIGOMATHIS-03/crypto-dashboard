@@ -1,6 +1,6 @@
 # 🚀 Crypto Dashboard
 
-A responsive cryptocurrency dashboard built with **Next.js** and **Tailwind CSS**, fetching live market data from the **CoinGecko API**. Built as part of the **Frontend Engineer Intern Task - MacV AI**.
+A responsive cryptocurrency dashboard built with **Next.js** and **Tailwind CSS**, fetching live market data from the **CoinGecko API**.
 
 ## 🔧 Features
 - 📈 **Live Market Prices**: View top coins with current price, market cap, and 24h change.
