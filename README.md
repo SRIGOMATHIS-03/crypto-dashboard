@@ -37,3 +37,12 @@ git clone https://github.com/SRIGOMATHIS-03/crypto-dashboard.git
 cd crypto-dashboard
 npm install
 npm run dev
+
+
+## 🚀 Deployment
+
+This project is live and accessible at:
+
+🔗 [Crypto Dashboard](https://crypto-dashboard-six-nu.vercel.app)
+
+Deployed using [Vercel](https://vercel.com).
